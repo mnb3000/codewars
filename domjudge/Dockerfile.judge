@@ -1,6 +1,7 @@
 FROM domjudge/judgehost:latest
 RUN cp /etc/resolv.conf /chroot/domjudge/etc/resolv.conf \
-		&& chroot "/chroot/domjudge" /bin/sh -c 'apt-get update \
+		&& chroot "/chroot/domjudge" /bin/sh -c 'mount -t proc none /proc \
+		&& apt-get update \
 		&& apt-get install curl wget apt-transport-https dirmngr gnupg ca-certificates -y \
 		&& apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
 		&& echo "deb https://download.mono-project.com/repo/debian stable-buster main" | tee /etc/apt/sources.list.d/mono-official-stable.list \
