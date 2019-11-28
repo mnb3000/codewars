@@ -1,0 +1,55 @@
+version: '3'
+
+services:
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      MYSQL_ROOT_PASSWORD: domjudge
+    ports:
+      - 8080:80
+    links:
+      - db
+  db:
+    image: mariadb
+    restart: always
+    volumes:
+      - db_volume:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: domjudge123
+      MYSQL_INITDB_SKIP_TZINFO: 1
+      MYSQL_DATABASE: domjudge
+      MYSQL_USER: domjudge
+      MYSQL_PASSWORD: domjudge123
+    command: --max-connections=1000 --max-allowed-packet=512M
+  domserver:
+    image: domjudge/domserver:latest
+    hostname: domserver
+    depends_on:
+      - db
+    environment:
+      MYSQL_HOST: db
+      MYSQL_ROOT_PASSWORD: domjudge123
+      MYSQL_DATABASE: domjudge
+      MYSQL_USER: domjudge
+      MYSQL_PASSWORD: domjudge123
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    links:
+      - db
+    ports:
+      - 12345:80
+  judgedaemon-0:
+    image: domjudge/judgehost:latest
+    depends_on:
+      - db
+      - domserver
+    environment:
+      DAEMON_ID: 0
+      JUDGEDAEMON_PASSWORD: daemonpwd
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    links:
+      - domserver
+volumes:
+  db_volume:
