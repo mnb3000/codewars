@@ -39,7 +39,9 @@ services:
     ports:
       - 12345:80
   judgedaemon-0:
-    image: domjudge/judgehost:latest
+    build:
+      context: ./
+      dockerfile: Dockerfile.judge
     depends_on:
       - db
       - domserver

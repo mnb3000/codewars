@@ -1,0 +1,6 @@
+FROM domjudge/judgehost:latest
+RUN apt-get update \
+		&& apt-get install curl -y
+RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo bash - \
+		&& apt-get install nodejs mono-mcs -y
+CMD ["/scripts/start.sh"]
