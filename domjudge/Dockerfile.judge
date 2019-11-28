@@ -4,4 +4,3 @@ RUN apt-get update && apt-get install wget lsb-release -y
 COPY dj_make_chroot /opt/domjudge/judgehost/bin/
 COPY docker-entrypoint.sh /usr/local/bin
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["/scripts/start.sh"]
