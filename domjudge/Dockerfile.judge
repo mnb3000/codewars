@@ -1,6 +1,6 @@
 FROM domjudge/judgehost:latest
 RUN rm -rf /chroot
-RUN apt-get update && apt-get install wget lsb-release -y
+RUN apt-get update && apt-get install wget lsb-release mono-devel mono-mcs -y
 COPY dj_make_chroot /opt/domjudge/judgehost/bin/
 COPY docker-entrypoint.sh /usr/local/bin
 ENTRYPOINT ["docker-entrypoint.sh"]
