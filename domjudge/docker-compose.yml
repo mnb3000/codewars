@@ -37,7 +37,7 @@ services:
     links:
       - db
     ports:
-      - 12345:80
+      - 80:80
   judgedaemon-0:
     build:
       context: ./
